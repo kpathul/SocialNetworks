@@ -36,6 +36,9 @@ public class CapGraph implements Graph {
 	public void addVertex(int num) {
 		
 		vertices.add(num);
+        
+        HashSet<Integer> adj=  new HashSet<Integer>();
+        edges.put(num, adj);
 	}
 
 	/* (non-Javadoc)
@@ -46,12 +49,6 @@ public class CapGraph implements Graph {
 		
 		if(edges.containsKey(from)) {
 			edges.get(from).add(to);
-		}
-		
-		else {
-			HashSet<Integer> adj=  new HashSet<Integer>();
-			adj.add(to);
-			edges.put(from, adj);
 		}
 	}
 
@@ -124,9 +121,7 @@ public class CapGraph implements Graph {
 		
 		for(int i: current) {
 			ret.vertices.add(i);
-			if(edges.containsKey(i)) {
-				ret.edges.put(i, edges.get(i));
-			}
+            ret.edges.put(i, edges.get(i));
 		}
 		
 		return ret;
@@ -137,7 +132,7 @@ public class CapGraph implements Graph {
 		
 		visited.push(i);
 		current.add(i);
-		if(!edges.containsKey(i) || edges.get(i).isEmpty()) {
+		if(edges.get(i).isEmpty()) {
 			return;
 		}
 		
@@ -152,7 +147,7 @@ public class CapGraph implements Graph {
 	private void dfs(int i, Stack<Integer> visited, Stack<Integer> finished) {
 		
 		visited.push(i);
-		if(!edges.containsKey(i) || edges.get(i).isEmpty()) {
+		if(edges.get(i).isEmpty()) {
 			finished.push(i);
 			return;
 		}
